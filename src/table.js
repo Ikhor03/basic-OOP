@@ -1,11 +1,10 @@
 export class Table {
     constructor(init) {
-        this.init = init;
+        this.dataHead = init.columns;
+        this.dataBody = init.data;
     }
 
-    createHeader(data) {
-        let open = "<thead><tr>";
-        let close = "</tr></thead>";
+    createHeader(data, open = "<thead><tr>", close = "</tr></thead>") {
         data.forEach((d) => {
             open += `<th>${d}</th>`;
         });
@@ -13,10 +12,7 @@ export class Table {
         return open + close;
     }
 
-    createBody(data) {
-        let open = "<tbody>";
-        let close = "</tbody>";
-
+    createBody(data, open = "<tbody>", close = "</tbody>") {
         data.forEach((d) => {
             open += `
           <tr>
@@ -25,7 +21,7 @@ export class Table {
             <td>${d.email}</td>
             <td>${d.number}</td>
           </tr>
-        `;
+        `
         });
 
         return open + close;
@@ -33,15 +29,15 @@ export class Table {
 
     render(element) {
         let table =
-            "<table class='table table-hover border text-center'>" +
-            this.createHeader(this.init.columns) +
-            this.createBody(this.init.data) +
+            "<table class= 'table table-hover border text-center'>" +
+            this.createHeader(this.dataHead) +
+            this.createBody(this.dataBody) +
             "</table>";
         element.innerHTML = table;
     }
 }
 
-export const run = (table) =>{
+export const run = (table) => {
     const app = document.getElementById("app");
     table.render(app);
 }
